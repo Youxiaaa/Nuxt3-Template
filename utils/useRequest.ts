@@ -6,47 +6,10 @@ import { hash } from 'ohash'
  * @param { Object } options useFtech第二個參數
  */
 
-// const token = useCookie('token') || '';
-
-// const fetch = (url: string, options?: any): Promise<any> => {
-//   // const reqUrl = VITE_API_HOST + url // 你的接口地址
-//   const reqUrl = 'http://110.42.184.111' + url
-
-//   options.headers = options.headers || {}
-
-//   // if (token.value) options.headers.authorization = `Bearer ${token.value}`
-
-//   // 不设置key，始终拿到的都是第一个请求的值，参数一样则不会进行第二次请求
-//   const key = hash(JSON.stringify(options) + url)
-
-//   return new Promise((resolve, reject) => {
-//     useFetch(reqUrl, { ...options, key })
-//       .then(({ data, error }) => {
-//         if (error.value) {
-//           reject(error.value)
-//           return
-//         }
-//         const value = data.value as any
-//         if (!value) {
-//           // 这里处理错你自定义的错误，例如code !== 1
-//           throw createError({
-//             statusCode: 500,
-//             statusMessage: reqUrl,
-//             message: '錯誤',
-//           })
-//           return
-//         }
-//         resolve(value)
-//       })
-//       .catch((err: any) => {
-//         console.log(err)
-//         reject(err)
-//       })
-//   })
-// }
-
 const fetch = async (url: string, methodAndOptions?: any): Promise<any> => {
-  const reqUrl = 'http://110.42.184.111' + url
+  const runtimeConfig = useRuntimeConfig()
+  const { apiBase } = runtimeConfig.public
+  const reqUrl = `${apiBase}${url}` as string
 
   const key = hash(JSON.stringify(methodAndOptions) + url)
 
