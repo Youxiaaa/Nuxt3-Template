@@ -1,5 +1,5 @@
 import { hash } from 'ohash'
-import { cancelToken } from './abortController'
+import { AbortApi } from '~~/utils/abortController'
 
 /**
  * api封裝
@@ -18,7 +18,7 @@ const fetch = async (url: string, methodAndOptions?: any): Promise<any> => {
 
   return await useFetch(reqUrl, {
     onRequest({ request, options }) {
-      cancelToken.removeRequestPending(apiUUID)
+      AbortApi.removeRequestPending(apiUUID)
       Object.assign(options, methodAndOptions)
 
       const token = useCookie('token') || ''
@@ -34,10 +34,10 @@ const fetch = async (url: string, methodAndOptions?: any): Promise<any> => {
         uuid: apiUUID,
         cancel: abortInstance
       }
-      cancelToken.addRequestPending(requestItem)
+      AbortApi.addRequestPending(requestItem)
     },
     onResponse({ request, response, options }) {
-      cancelToken.clearRequestPending(apiUUID)
+      AbortApi.clearRequestPending(apiUUID)
       return response._data
     },
   })

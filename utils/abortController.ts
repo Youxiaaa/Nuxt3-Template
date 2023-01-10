@@ -8,7 +8,7 @@
 // 紀錄請求中 API
 let RequestPending = <any>[]
 
-class CancelToken {
+class abortController {
 
   public removeRequestPending(uuid: string) {
     RequestPending.forEach((item: any, index: number, arr: any) => {
@@ -36,4 +36,4 @@ class CancelToken {
 
 }
 
-export const cancelToken = new CancelToken()
+export const AbortApi = new abortController()

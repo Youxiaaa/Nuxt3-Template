@@ -23,5 +23,7 @@ await getList();
         <h2 class="fw-800 text-20px">{{ item.title }}</h2>
       </li>
     </ul>
+    <button @click="getList" class="border-4px border-black p-20px rounded-10px text-center mt-40px flex-center">Abort
+      API</button>
   </section>
 </template>
