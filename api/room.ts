@@ -1,4 +1,4 @@
-import Http from '~~/utils/useRequest';
+import Http from './request';
 
 enum apiPath {
   getRoomList = '/api/room/room/getRoomList'
