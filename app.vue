@@ -10,9 +10,13 @@ async function getList(): Promise<void> {
   const { result } = await FETCH_ROOM.getRoomList(query);
 
   roomList.value = result.orders.data;
+  console.log(result.orders.data)
 }
 
 await getList();
+// onMounted(async () => {
+//   await getList();
+// })
 </script>
 <template>
   <section>

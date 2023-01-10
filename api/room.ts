@@ -1,9 +1,9 @@
-import Http from '~~/composables/useRequest';
+import Http from '~~/utils/useRequest';
 
 enum apiPath {
   getRoomList = '/api/room/room/getRoomList'
 }
 
 export const FETCH_ROOM = {
-  getRoomList: (data: any) => Http.get(apiPath.getRoomList, data)
+  getRoomList: (params: any) => Http.get(apiPath.getRoomList, params)
 }
