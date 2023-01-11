@@ -14,7 +14,7 @@ export default defineConfig({
   variants: [],
   /* shortcuts to multiple utilities */
   shortcuts: {
-    'flex-center': 'flex items-center',
+    'flex-center': 'flex items-center justify-center',
   },
   theme: {
     // 因為與 presets 的規則衝突，所以 'custom_dark' 不可取名為 'custom-dark'
@@ -27,13 +27,6 @@ export default defineConfig({
       primaryLightYellow: 'rgba(254, 153, 13, 0.2)',
       secondaryRed: '#F63C3C',
       secondaryGreen: '#51C927',
-    },
-    borderRadius: {
-      h1: '30px',
-      h2: '24px',
-      h3: '20px',
-      h4: '18px',
-      h5: '16px',
     },
     fontSize: {
       h1: '30px',
