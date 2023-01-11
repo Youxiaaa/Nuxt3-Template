@@ -7,7 +7,7 @@ async function getList(): Promise<void> {
     pageNo: 1,
     pageSize: 3,
   };
-  const { result } = await FETCH_ROOM.getRoomList(query, false);
+  const { result } = await FETCH_ROOM.getRoomList(query);
 
   roomList.value = result.orders.data;
 }

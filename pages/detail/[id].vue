@@ -1,3 +1,9 @@
+<script setup>
+definePageMeta({
+  middleware: ['auth']
+})
+</script>
+
 <template>
   <section>
     <h2>ID is{{ $route.params.id }}</h2>

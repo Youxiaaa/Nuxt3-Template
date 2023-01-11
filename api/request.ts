@@ -30,7 +30,9 @@ class Http {
           authorization: `Bearer ${token.value}`
         };
         options.headers = headersInit
-  
+
+        if (needLoading) LoadingStore().FN_ADD_LOADING(apiUUID)
+
         const abortInstance = new AbortController()
         options.signal = abortInstance.signal
 
@@ -39,7 +41,6 @@ class Http {
           cancel: abortInstance
         }
         AbortApi.addRequestPending(requestItem)
-        LoadingStore().FN_ADD_LOADING(apiUUID)
       },
       onResponse({ request, response, options }) {
         AbortApi.clearRequestPending(apiUUID)

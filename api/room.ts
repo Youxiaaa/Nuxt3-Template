@@ -5,5 +5,5 @@ enum apiPath {
 }
 
 export const FETCH_ROOM = {
-  getRoomList: (params: any) => http.get(apiPath.get, params)
+  getRoomList: (params: any, needLoading: boolean = true) => http.get(apiPath.get, params, needLoading)
 }
