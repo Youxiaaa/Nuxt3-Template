@@ -1,9 +1,9 @@
 import { http } from './request';
 
 enum apiPath {
-  getRoomList = '/api/room/room/getRoomList'
+  get = '/api/room/room/getRoomList'
 }
 
 export const FETCH_ROOM = {
-  getRoomList: (params: any) => http.get(apiPath.getRoomList, params)
+  getRoomList: (params: any) => http.get(apiPath.get, params)
 }
