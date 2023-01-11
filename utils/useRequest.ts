@@ -20,7 +20,7 @@ const fetch = async (url: string, methodAndOptions?: any): Promise<any> => {
       const token = useCookie('token') || ''
 
       const headersInit: HeadersInit = {
-        authorization: `Bearer ${token.value || '123'}`
+        authorization: `Bearer ${token.value || ''}`
       };
       options.headers = headersInit
     },

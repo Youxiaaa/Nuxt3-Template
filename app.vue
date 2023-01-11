@@ -12,7 +12,7 @@ async function getList(): Promise<void> {
   roomList.value = result.orders.data;
 }
 
-await getList();
+await getList()
 </script>
 <template>
   <section class="p-20px">
