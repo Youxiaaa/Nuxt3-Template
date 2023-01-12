@@ -25,9 +25,9 @@ class Http {
 
         Object.assign(options, methodAndOptions)
   
-        const token = useCookie('token') || ''
+        const token = useCookie('access_token')
         const headersInit: HeadersInit = {
-          authorization: `Bearer ${token.value}`
+          authorization: `Bearer ${token.value || ''}`
         };
         options.headers = headersInit
 

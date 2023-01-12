@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_BASE_API || 'http://110.42.184.111'
+      apiBase: process.env.NUXT_BASE_API
+      // apiBase: process.env.NUXT_BASE_API || 'http://110.42.184.111'
     }
   },
   typescript: {
@@ -17,6 +18,6 @@ export default defineNuxtConfig({
   ],
   modules: [
     '@pinia/nuxt',
-    '@unocss/nuxt'
+    '@unocss/nuxt',
   ],
 })

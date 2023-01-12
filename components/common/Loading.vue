@@ -10,6 +10,9 @@ watch(() => loadiongArrRef.value, (oldVal, newVal) => {
     setTimeout(() => {
       if (!loadiongArrRef.value) isOpen.value = false
     }, 500);
+    setTimeout(() => {
+      if (!loadiongArrRef.value) isOpen.value = false
+    }, 3000);
   }
 })
 </script>
