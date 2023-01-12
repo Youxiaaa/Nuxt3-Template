@@ -16,7 +16,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             if (exist) {
               target.setAttribute('src', bind.value);
             } else {
-              target.setAttribute('src', '/images/error/error-img.webp');
+              target.setAttribute('src', '/images/error/error-img.gif');
             }
             observer.unobserve(target)
           }
