@@ -22,8 +22,8 @@ Npm => 9.2.0
 ```javascript
 - Pinia
 - UnoCSS
-- Font-Awesome
-- sweetalert2
+- FontAwesome
+- Sweetalert2
 ```
 
 ## API 使用方式
@@ -55,4 +55,9 @@ if (!AuthStore().TOKEN_GETTER) {
 else {
   if (to.path === '/login') return navigateTo('/');
 };
+```
+
+## 圖片懶加載使用方式
+```html
+<img v-lazy="item.pictureUrl" :alt="item.title">
 ```
