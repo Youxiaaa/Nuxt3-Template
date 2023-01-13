@@ -18,6 +18,14 @@ Node => 16.19.0
 Npm => 9.2.0
 ```
 
+## 相關依賴
+```javascript
+- Pinia
+- UnoCSS
+- Font-Awesome
+- sweetalert2
+```
+
 ## API 使用方式
 ```javascript
 <script lang="ts" setup>
@@ -47,5 +55,4 @@ if (!AuthStore().TOKEN_GETTER) {
 else {
   if (to.path === '/login') return navigateTo('/');
 };
-
 ```
