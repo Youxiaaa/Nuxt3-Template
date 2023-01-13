@@ -1,42 +1,51 @@
-# Nuxt 3 Minimal Starter
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Nuxt3 開發模板
 
 ## Setup
+```javascript
+// 安裝依賴
+npm i
 
-Make sure to install the dependencies:
-
-```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install --shamefully-hoist
-```
-
-## Development Server
-
-Start the development server on http://localhost:3000
-
-```bash
+// 啟動
 npm run dev
-```
 
-## Production
-
-Build the application for production:
-
-```bash
+// 打包
 npm run build
 ```
 
-Locally preview production build:
-
-```bash
-npm run preview
+## 環境版本
+```javascript
+Node => 16.19.0
+Npm => 9.2.0
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## API 使用方式
+```javascript
+<script lang="ts" setup>
+  const { FETCH_ROOM } = useApi();
+
+  cosnt roomList = ref([]);
+  async function getRoomList() {
+    const query = {
+      pageNo: 1,
+      pageSize: 20
+    }
+    const { result } = await FETCH_ROOM(query)
+
+    roomList.value = result.orders.data;
+  }
+  // 執行 Function
+  await getRoomList();
+</script>
+```
+## Store 使用方式
+```javascript
+const { AuthStore } = useStore();
+
+if (!AuthStore().TOKEN_GETTER) {
+  if (to.path !== '/login') return navigateTo('/login');
+};
+else {
+  if (to.path === '/login') return navigateTo('/');
+};
+
+```

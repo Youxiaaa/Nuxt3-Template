@@ -28,7 +28,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         return await new Promise((resolve) => {
           let img = new Image() as any
           img.onload = function() {
-            if (this.complete == true) {
+            if (this.complete === true) {
               resolve(true);
               img = null;
             }
