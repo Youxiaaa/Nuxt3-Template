@@ -5,12 +5,12 @@
  * API 回傳時 清除掉陣列中已結束 API
  */
 
-// 紀錄請求中 API
-let RequestPending = <any>[]
-
 class abortController {
+  // 紀錄請求中 API
+  private static RequestPending = []
+
   public removeRequestPending (uuid: string) {
-    RequestPending.forEach((item: any, index: number, arr: any) => {
+    abortController.RequestPending.forEach((item: any, index: number, arr: any) => {
       if (item.uuid === uuid) {
         item.cancel.abort()
         arr.splice(index, 1)
@@ -19,18 +19,18 @@ class abortController {
   }
 
   public cancelAllPending () {
-    RequestPending.forEach((item: any) => {
+    abortController.RequestPending.forEach((item: any) => {
       item.cancel.abort()
     })
-    RequestPending = []
+    abortController.RequestPending = []
   }
 
   public clearRequestPending (uuid: string) {
-    RequestPending = RequestPending.filter((item: any) => item.uuid !== uuid)
+    abortController.RequestPending = abortController.RequestPending.filter((item: any) => item.uuid !== uuid)
   }
 
-  public addRequestPending (item: any) {
-    RequestPending.push(item)
+  public addRequestPending (item: never) {
+    abortController.RequestPending.push(item)
   }
 }
 

@@ -47,14 +47,13 @@ Npm => 9.2.0
 ```
 ## Store 使用方式
 ```javascript
-const { AuthStore } = useStore();
+export default defineNuxtRouteMiddleware((to, from) => {
+  const { AuthStore } = useStore()
 
-if (!AuthStore().TOKEN_GETTER) {
-  if (to.path !== '/login') return navigateTo('/login');
-};
-else {
-  if (to.path === '/login') return navigateTo('/');
-};
+  if (!AuthStore().TOKEN_GETTER) {
+    if (to.path !== '/login') { return navigateTo('/login') }
+  } else if (to.path === '/login') { return navigateTo('/') }
+})
 ```
 
 ## 圖片懶加載使用方式
