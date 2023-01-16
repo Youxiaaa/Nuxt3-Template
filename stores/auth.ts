@@ -1,15 +1,15 @@
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
 
 export const AuthStore = defineStore('auth-store', () => {
   const TOKEN_REF = ref(useCookie('access_token'))
 
   const TOKEN_GETTER = computed(() => TOKEN_REF.value || '')
 
-  function FN_SET_TOKEN(token: string) {
+  function FN_SET_TOKEN (token: string) {
     TOKEN_REF.value = token
   }
 
-  function FN_LOGOUT() {
+  function FN_LOGOUT () {
     TOKEN_REF.value = null
 
     const { $swal } = useNuxtApp()

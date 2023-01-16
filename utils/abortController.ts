@@ -9,8 +9,7 @@
 let RequestPending = <any>[]
 
 class abortController {
-
-  public removeRequestPending(uuid: string) {
+  public removeRequestPending (uuid: string) {
     RequestPending.forEach((item: any, index: number, arr: any) => {
       if (item.uuid === uuid) {
         item.cancel.abort()
@@ -19,21 +18,21 @@ class abortController {
     })
   }
 
-  public cancelAllPending() {
+  public cancelAllPending () {
     RequestPending.forEach((item: any) => {
       item.cancel.abort()
     })
     RequestPending = []
   }
 
-  public clearRequestPending(uuid: string) {
+  public clearRequestPending (uuid: string) {
     RequestPending = RequestPending.filter((item: any) => item.uuid !== uuid)
   }
 
-  public addRequestPending(item: any) {
+  public addRequestPending (item: any) {
     RequestPending.push(item)
   }
-
 }
 
+// eslint-disable-next-line new-cap
 export const AbortApi = new abortController()

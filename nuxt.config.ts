@@ -1,5 +1,11 @@
 export default defineNuxtConfig({
   app: {
+    head: {
+      title: process.env.NUXT_APP_TITLE || 'Nuxt3-template',
+      meta: [],
+      link: [],
+      script: []
+    },
     pageTransition: { name: 'fade', mode: 'out-in' },
     layoutTransition: { name: 'fade', mode: 'out-in' }
   },
@@ -18,7 +24,7 @@ export default defineNuxtConfig({
   ],
   modules: [
     '@pinia/nuxt',
-    '@unocss/nuxt',
+    '@unocss/nuxt'
   ],
   build: {
     transpile: [

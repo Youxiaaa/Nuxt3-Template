@@ -20,18 +20,18 @@ class Http {
     const apiUUID = hash(JSON.stringify(methodAndOptions) + url) as never
 
     return await useFetch(reqUrl, {
-      onRequest({ request, options }) {
+      onRequest ({ options }) {
         AbortApi.removeRequestPending(apiUUID)
 
         Object.assign(options, methodAndOptions)
-  
+
         const token = useCookie('access_token')
         const headersInit: HeadersInit = {
           authorization: `Bearer ${token.value || ''}`
-        };
+        }
         options.headers = headersInit
 
-        if (needLoading) LoadingStore().FN_ADD_LOADING(apiUUID)
+        if (needLoading) { LoadingStore().FN_ADD_LOADING(apiUUID) }
 
         const abortInstance = new AbortController()
         options.signal = abortInstance.signal
@@ -42,30 +42,30 @@ class Http {
         }
         AbortApi.addRequestPending(requestItem)
       },
-      onResponse({ request, response, options }) {
+      onResponse ({ response }) {
         AbortApi.clearRequestPending(apiUUID)
         LoadingStore().FN_REMOVE_LOADING(apiUUID)
         return response._data
-      },
+      }
     })
   }
 
-  public async get(url: string, params?: any, needLoading?: boolean): Promise<any> {
+  public async get (url: string, params?: any, needLoading?: boolean): Promise<any> {
     const { data } = await Http.fetch(url, { method: 'get', params }, needLoading)
     return data._value
   }
 
-  public async post(url: string, body?: any, needLoading?: boolean): Promise<any> {
+  public async post (url: string, body?: any, needLoading?: boolean): Promise<any> {
     const { data } = await Http.fetch(url, { method: 'post', body }, needLoading)
     return data._value
   }
 
-  public async put(url: string, body?: any, needLoading?: boolean): Promise<any> {
+  public async put (url: string, body?: any, needLoading?: boolean): Promise<any> {
     const { data } = await Http.fetch(url, { method: 'put', body }, needLoading)
     return data._value
   }
 
-  public async delete(url: string, params?: any, needLoading?: boolean): Promise<any> {
+  public async delete (url: string, params?: any, needLoading?: boolean): Promise<any> {
     const { data } = await Http.fetch(url, { method: 'delete', params }, needLoading)
     return data._value
   }

@@ -11,12 +11,12 @@ export default defineNuxtPlugin((nuxtApp) => {
             const target = img[i].target
             target.setAttribute('src', '/images/error/loading.gif')
 
-            let exist = await imageIsExist(bind.value);
+            const exist = await imageIsExist(bind.value)
 
             if (exist) {
-              target.setAttribute('src', bind.value);
+              target.setAttribute('src', bind.value)
             } else {
-              target.setAttribute('src', '/images/error/error-img.gif');
+              target.setAttribute('src', '/images/error/error-img.gif')
             }
             observer.unobserve(target)
           }
@@ -24,23 +24,24 @@ export default defineNuxtPlugin((nuxtApp) => {
       }
 
       // 檢查圖片是否存在
-      async function imageIsExist(url: string) {
+      async function imageIsExist (url: string) {
         return await new Promise((resolve) => {
           let img = new Image() as any
-          img.onload = function() {
+          img.onload = function () {
             if (this.complete === true) {
-              resolve(true);
-              img = null;
+              resolve(true)
+              img = null
             }
           }
           img.onerror = function () {
-            resolve(false);
-            img = null;
+            resolve(false)
+            img = null
           }
-          img.src = url;
+          img.src = url
         })
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getSSRProps (binding, vnode) {
       return {}
     }
