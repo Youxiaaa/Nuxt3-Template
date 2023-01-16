@@ -1,5 +1,6 @@
 import { hash } from 'ohash'
 import { AbortApi } from '~~/utils/abortController'
+import { ApiResType, AbortApiType, QueryFormType } from '~~/types'
 
 /**
  * api封裝
@@ -15,9 +16,9 @@ class Http {
     // 取得環境變數 BaseURL
     const runtimeConfig = useRuntimeConfig()
     const { apiBase } = runtimeConfig.public
-    const reqUrl = `${apiBase}${url}` as string
+    const reqUrl = `${apiBase}${url}`
 
-    const apiUUID = hash(JSON.stringify(methodAndOptions) + url) as never
+    const apiUUID: string = hash(JSON.stringify(methodAndOptions) + url)
 
     return await useFetch(reqUrl, {
       onRequest ({ options }) {
@@ -36,10 +37,10 @@ class Http {
         const abortInstance = new AbortController()
         options.signal = abortInstance.signal
 
-        const requestItem = {
+        const requestItem: AbortApiType = {
           uuid: apiUUID,
           cancel: abortInstance
-        } as never
+        }
         AbortApi.addRequestPending(requestItem)
       },
       onResponse ({ response }) {
@@ -50,22 +51,22 @@ class Http {
     })
   }
 
-  public async get (url: string, params?: any, needLoading?: boolean): Promise<any> {
+  public async get (url: string, params?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
     const { data } = await Http.fetch(url, { method: 'get', params }, needLoading)
     return data._value
   }
 
-  public async post (url: string, body?: any, needLoading?: boolean): Promise<any> {
+  public async post (url: string, body?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
     const { data } = await Http.fetch(url, { method: 'post', body }, needLoading)
     return data._value
   }
 
-  public async put (url: string, body?: any, needLoading?: boolean): Promise<any> {
+  public async put (url: string, body?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
     const { data } = await Http.fetch(url, { method: 'put', body }, needLoading)
     return data._value
   }
 
-  public async delete (url: string, params?: any, needLoading?: boolean): Promise<any> {
+  public async delete (url: string, params?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
     const { data } = await Http.fetch(url, { method: 'delete', params }, needLoading)
     return data._value
   }

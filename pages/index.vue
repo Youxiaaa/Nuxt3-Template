@@ -1,13 +1,14 @@
 <script lang="ts" setup>
+import { QueryFormType } from '~~/types';
 const { FETCH_ROOM } = useApi();
 
 const roomList = ref([]) as any;
+const query = ref<QueryFormType>({
+  pageNo: 1,
+  pageSize: 15
+});
 async function getList (): Promise<void> {
-  const query = {
-    pageNo: 1,
-    pageSize: 15
-  };
-  const { result } = await FETCH_ROOM.getRoomList(query);
+  const { result } = await FETCH_ROOM.getRoomList(query.value);
 
   roomList.value = result.orders.data;
 }

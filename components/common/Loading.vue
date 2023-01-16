@@ -1,18 +1,17 @@
 <script lang="ts" setup>
 const { LoadingStore } = useStore()
 
-const loadiongArrRef = toRef(LoadingStore(), 'CHECK_LOADING_ARRAY_LEGNTH')
 const isOpen = ref(false)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-watch(() => loadiongArrRef.value, (oldVal, newVal) => {
+watch(() => LoadingStore().LOADING_ARRAY_LENGTH_GETTER, (oldVal, newVal) => {
   if (newVal) { isOpen.value = true }
   if (!newVal) {
     setTimeout(() => {
-      if (!loadiongArrRef.value) { isOpen.value = false }
+      if (!LoadingStore().LOADING_ARRAY_LENGTH_GETTER) { isOpen.value = false }
     }, 500)
     setTimeout(() => {
-      if (!loadiongArrRef.value) { isOpen.value = false }
+      if (!LoadingStore().LOADING_ARRAY_LENGTH_GETTER) { isOpen.value = false }
     }, 3000)
   }
 })

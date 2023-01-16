@@ -1,5 +1,5 @@
 import { LoadingStore } from './LoadingStore'
-import { AuthStore } from './auth'
+import { AuthStore } from './AuthStore'
 
 export default {
   LoadingStore,

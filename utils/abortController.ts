@@ -5,12 +5,14 @@
  * API 回傳時 清除掉陣列中已結束 API
  */
 
+import { AbortApiType } from '~~/types'
+
 class abortController {
   // 紀錄請求中 API
-  private static RequestPending = []
+  private static RequestPending: AbortApiType[] = []
 
   public removeRequestPending (uuid: string) {
-    abortController.RequestPending.forEach((item: any, index: number, arr: any) => {
+    abortController.RequestPending.forEach((item: AbortApiType, index: number, arr: AbortApiType[]) => {
       if (item.uuid === uuid) {
         item.cancel.abort()
         arr.splice(index, 1)
@@ -19,17 +21,17 @@ class abortController {
   }
 
   public cancelAllPending () {
-    abortController.RequestPending.forEach((item: any) => {
+    abortController.RequestPending.forEach((item: AbortApiType) => {
       item.cancel.abort()
     })
     abortController.RequestPending = []
   }
 
   public clearRequestPending (uuid: string) {
-    abortController.RequestPending = abortController.RequestPending.filter((item: any) => item.uuid !== uuid)
+    abortController.RequestPending = abortController.RequestPending.filter((item: AbortApiType) => item.uuid !== uuid)
   }
 
-  public addRequestPending (item: never) {
+  public addRequestPending (item: AbortApiType) {
     abortController.RequestPending.push(item)
   }
 }
