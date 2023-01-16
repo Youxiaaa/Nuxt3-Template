@@ -1,7 +1,3 @@
-import { hash } from 'ohash'
-import { AbortApi } from '~~/utils/abortController'
-import { ApiResType, AbortApiType, QueryFormType } from '~~/types'
-
 /**
  * api封裝
  * @param { String } url api網址
@@ -9,8 +5,12 @@ import { ApiResType, AbortApiType, QueryFormType } from '~~/types'
  * @param { Object } options useFtech第二個參數
  */
 
+import { hash } from 'ohash'
+import { AbortApi } from '~~/utils/abortController'
+import { ApiResType, AbortApiType, QueryFormType, ApiMethodType } from '~~/types'
+
 class Http {
-  private static async fetch (url: string, methodAndOptions?: any, needLoading?: boolean): Promise<any> {
+  private static async fetch (url: string, methodAndOptions?: ApiMethodType, needLoading?: boolean): Promise<any> {
     const { LoadingStore } = useStore()
 
     // 取得環境變數 BaseURL
