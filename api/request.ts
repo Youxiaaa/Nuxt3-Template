@@ -39,7 +39,7 @@ class Http {
         const requestItem = {
           uuid: apiUUID,
           cancel: abortInstance
-        }
+        } as never
         AbortApi.addRequestPending(requestItem)
       },
       onResponse ({ response }) {
