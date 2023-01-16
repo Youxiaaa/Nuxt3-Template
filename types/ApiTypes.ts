@@ -1,18 +1,19 @@
 export interface ApiResType {
-  readonly code: number;
-  readonly message: number;
-  result: any;
-  readonly success: boolean;
-  readonly [propName: string]: any;
+  code?: string;
+  message?: string;
+  result?: any;
+  success?: boolean;
+  // [propName: string]: any;
 }
 
 export interface AbortApiType {
-  readonly uuid: string;
-  readonly cancel: AbortController;
+  uuid: string;
+  cancel: AbortController;
+  [propName: string]: any;
 }
 
 export interface ApiMethodType {
-  readonly method: string;
-  readonly body?: object;
-  readonly params?: object;
+  method: string;
+  body?: object;
+  params?: object;
 }

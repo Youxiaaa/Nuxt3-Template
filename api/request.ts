@@ -9,7 +9,7 @@ import { hash } from 'ohash'
 import { AbortApi } from '~~/utils/abortController'
 import { ApiResType, AbortApiType, QueryFormType, ApiMethodType } from '~~/types'
 
-class Http {
+export default class http {
   private static async fetch (url: string, methodAndOptions?: ApiMethodType, needLoading?: boolean): Promise<any> {
     const { LoadingStore } = useStore()
 
@@ -52,24 +52,22 @@ class Http {
   }
 
   public async get (url: string, params?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
-    const { data } = await Http.fetch(url, { method: 'get', params }, needLoading)
+    const { data } = await http.fetch(url, { method: 'get', params }, needLoading)
     return data._value
   }
 
   public async post (url: string, body?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
-    const { data } = await Http.fetch(url, { method: 'post', body }, needLoading)
+    const { data } = await http.fetch(url, { method: 'post', body }, needLoading)
     return data._value
   }
 
   public async put (url: string, body?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
-    const { data } = await Http.fetch(url, { method: 'put', body }, needLoading)
+    const { data } = await http.fetch(url, { method: 'put', body }, needLoading)
     return data._value
   }
 
   public async delete (url: string, params?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
-    const { data } = await Http.fetch(url, { method: 'delete', params }, needLoading)
+    const { data } = await http.fetch(url, { method: 'delete', params }, needLoading)
     return data._value
   }
 }
-
-export const http = new Http()

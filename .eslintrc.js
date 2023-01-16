@@ -14,6 +14,7 @@ module.exports = {
   },
   plugins: ['vue'],
   rules: {
+    'new-parens': 'off',
     // 'space-before-function-paren': 0,
     'import/named': 'off',
     'vue/no-deprecated-v-on-native-modifier': 'off',

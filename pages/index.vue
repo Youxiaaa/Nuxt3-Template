@@ -13,7 +13,12 @@ async function getList (): Promise<void> {
   roomList.value = result.orders.data;
 }
 
-await getList();
+onMounted(() => {
+  nextTick(() => {
+    getList();
+  });
+});
+// await getList();
 </script>
 <template>
   <section>
