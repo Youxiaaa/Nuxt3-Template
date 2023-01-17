@@ -1,15 +1,19 @@
 # Nuxt3 開發模板
 
 ## Setup
-```javascript
+```json
 // 安裝依賴
 npm i
 
-// 啟動
+// 啟動本地端
 npm run dev
+// 啟動本地端(生產環境)
+npm run dev:prod
 
 // 打包
 npm run build
+// 打包(生產環境)
+npm run build:dev
 ```
 
 ## 環境版本
@@ -19,7 +23,7 @@ Npm => 9.2.0
 ```
 
 ## 相關依賴
-```javascript
+```typescript
 - Pinia
 - UnoCSS
 - FontAwesome
@@ -27,7 +31,7 @@ Npm => 9.2.0
 ```
 
 ## API 使用方式
-```javascript
+```typescript
 <script lang="ts" setup>
   const { FETCH_ROOM } = useApi();
 
@@ -43,10 +47,16 @@ Npm => 9.2.0
   }
   // 執行 Function
   await getRoomList();
+  // 客戶端渲染
+  onMounted(() => {
+    nextTick(() => {
+      getList();
+    });
+  });
 </script>
 ```
 ## Store 使用方式
-```javascript
+```typescript
 export default defineNuxtRouteMiddleware((to, from) => {
   const { AuthStore } = useStore()
 

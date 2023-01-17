@@ -27,6 +27,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       async function imageIsExist (url: string) {
         return await new Promise((resolve) => {
           let img = new Image() as any
+          img.src = url
           img.onload = function () {
             if (this.complete === true) {
               resolve(true)
@@ -37,9 +38,12 @@ export default defineNuxtPlugin((nuxtApp) => {
             resolve(false)
             img = null
           }
-          img.src = url
         })
       }
+    },
+    unmounted () {
+      // 取消圖片請求
+      window.stop()
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getSSRProps (binding, vnode) {

@@ -1,9 +1,8 @@
 export interface ApiResType {
-  readonly code: number;
-  readonly message: number;
-  result: any;
-  readonly success: boolean;
-  readonly [propName: string]: any;
+  readonly code?: string;
+  readonly message?: string;
+  readonly result?: any;
+  readonly success?: boolean;
 }
 
 export interface AbortApiType {

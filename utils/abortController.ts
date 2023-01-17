@@ -7,7 +7,7 @@
 
 import { AbortApiType } from '~~/types'
 
-class abortController {
+export const AbortApi = new class abortController {
   // 紀錄請求中 API
   private static RequestPending: AbortApiType[] = []
 
@@ -35,6 +35,3 @@ class abortController {
     abortController.RequestPending.push(item)
   }
 }
-
-// eslint-disable-next-line new-cap
-export const AbortApi = new abortController()

@@ -1,4 +1,4 @@
-import { AbortApi } from '~~/utils/abortController'
+import { AbortApi } from '~~/utils'
 
 export default defineNuxtRouteMiddleware(() => {
   const { LoadingStore } = useStore()
