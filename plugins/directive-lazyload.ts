@@ -9,14 +9,24 @@ export default defineNuxtPlugin((nuxtApp) => {
         for (let i = 0; i < img.length; i += 1) {
           if (img[i].isIntersecting) {
             const target = img[i].target
-            target.setAttribute('src', '/images/error/loading.gif')
+            const targetParent = target.parentNode
+            const loadingDiv = document.createElement('div')
+
+            target.classList.add('hidden')
+            loadingDiv.classList.add('loading__img')
+            targetParent.appendChild(loadingDiv)
+            targetParent.insertBefore(loadingDiv, target)
 
             const exist = await imageIsExist(bind.value)
 
             if (exist) {
               target.setAttribute('src', bind.value)
+              target.classList.remove('hidden')
+              loadingDiv.classList.add('hidden')
             } else {
               target.setAttribute('src', '/images/error/error-img.gif')
+              target.classList.remove('hidden')
+              loadingDiv.classList.add('hidden')
             }
             observer.unobserve(target)
           }
@@ -41,7 +51,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         })
       }
     },
-    unmounted () {
+    beforeUnmount () {
       // 取消圖片請求
       window.stop()
     },

@@ -15,3 +15,33 @@
 .fade-leave-from {
   opacity: 1;
 }
+
+.loading__img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background-color: #e9e9e9;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading__img::after {
+  content: '';
+  background-color: #f8f8f8;
+  position: absolute;
+  top: 0;
+  left: -30%;
+  height: 100%;
+  width: 20%;
+  animation: loadingMove 1s infinite cubic-bezier(.86,.23,.54,.99);
+  filter: blur(20px);
+}
+
+@keyframes loadingMove {
+  0% {
+    left: -30%;
+  }
+  100% {
+    left: 110%;
+  }
+}

@@ -10,7 +10,7 @@ import { AbortApi } from '~~/utils'
 import { ApiResType, AbortApiType, QueryFormType, ApiMethodType } from '~~/types'
 
 export default class http {
-  private static async fetch (url: string, methodAndOptions?: ApiMethodType, needLoading?: boolean): Promise<any> {
+  private static async fetch (url: string, methodAndOptions: ApiMethodType, needLoading?: boolean): Promise<any> {
     const { LoadingStore } = useStore()
 
     // 取得環境變數 BaseURL
@@ -21,7 +21,7 @@ export default class http {
     const apiUUID: string = hash(JSON.stringify(methodAndOptions) + url)
 
     return await useFetch(reqUrl, {
-      // 請求
+      // 請求攔截
       onRequest ({ options }) {
         AbortApi.removeRequestPending(apiUUID)
 
@@ -44,27 +44,69 @@ export default class http {
         }
         AbortApi.addRequestPending(requestItem)
       },
-      // 請求錯誤
+      // 請求錯誤攔截
       onRequestError ({ error }) {
         AbortApi.clearRequestPending(apiUUID)
         LoadingStore().FN_REMOVE_LOADING(apiUUID)
 
         console.error(error)
       },
-      // 回應
+      // 回應攔截
       onResponse ({ response }) {
         AbortApi.clearRequestPending(apiUUID)
         LoadingStore().FN_REMOVE_LOADING(apiUUID)
         return response._data
       },
-      // 回應錯誤
+      // 回應錯誤攔截
       onResponseError ({ response }) {
         AbortApi.clearRequestPending(apiUUID)
         LoadingStore().FN_REMOVE_LOADING(apiUUID)
-        console.log(response)
+
+        const { status, statusText } = response
+
+        http.handleError(status, statusText)
         return response._data
       }
     })
+  }
+
+  // 錯誤處理
+  private static handleError (status: number, message: string) {
+    const { $swal } = useNuxtApp()
+    switch (status) {
+      case 404:
+        $swal.fire({
+          icon: 'error',
+          html: `${message}`,
+          timer: 1500,
+          showConfirmButton: false
+        })
+        break
+      case 401:
+        $swal.fire({
+          icon: 'error',
+          html: `${message}`,
+          timer: 1500,
+          showConfirmButton: false
+        })
+        break
+      case 500:
+        $swal.fire({
+          icon: 'error',
+          html: `${message}`,
+          timer: 1500,
+          showConfirmButton: false
+        })
+        break
+      default:
+        $swal.fire({
+          icon: 'error',
+          html: `${message} || 伺服器錯誤，請稍後再試。`,
+          timer: 1500,
+          showConfirmButton: false
+        })
+        break
+    }
   }
 
   public async get (url: string, params?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
