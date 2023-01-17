@@ -10,7 +10,7 @@ import { AbortApi } from '~~/utils/abortController'
 import { ApiResType, AbortApiType, QueryFormType, ApiMethodType } from '~~/types'
 
 class Http {
-  private static async fetch (url: string, methodAndOptions?: ApiMethodType, needLoading?: boolean): Promise<any> {
+  private static async fetch (url: string, methodAndOptions: ApiMethodType, needLoading?: boolean): Promise<any> {
     const { LoadingStore } = useStore()
 
     // 取得環境變數 BaseURL
@@ -21,6 +21,7 @@ class Http {
     const apiUUID: string = hash(JSON.stringify(methodAndOptions) + url)
 
     return await useFetch(reqUrl, {
+      // 請求
       onRequest ({ options }) {
         AbortApi.removeRequestPending(apiUUID)
 
@@ -43,9 +44,24 @@ class Http {
         }
         AbortApi.addRequestPending(requestItem)
       },
+      // 請求錯誤
+      onRequestError ({ error }) {
+        AbortApi.clearRequestPending(apiUUID)
+        LoadingStore().FN_REMOVE_LOADING(apiUUID)
+
+        console.error(error)
+      },
+      // 回應
       onResponse ({ response }) {
         AbortApi.clearRequestPending(apiUUID)
         LoadingStore().FN_REMOVE_LOADING(apiUUID)
+        return response._data
+      },
+      // 回應錯誤
+      onResponseError ({ response }) {
+        AbortApi.clearRequestPending(apiUUID)
+        LoadingStore().FN_REMOVE_LOADING(apiUUID)
+        console.log(response)
         return response._data
       }
     })

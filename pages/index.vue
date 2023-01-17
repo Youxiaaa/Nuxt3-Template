@@ -8,12 +8,17 @@ const query = ref<QueryFormType>({
   pageSize: 15
 });
 async function getList (): Promise<void> {
-  const { result } = await FETCH_ROOM.getRoomList(query.value);
+  const data = await FETCH_ROOM.getRoomList(query.value);
+  console.log(data);
+  // const { result } = await FETCH_ROOM.getRoomList(query.value);
 
-  roomList.value = result.orders.data;
+  // roomList.value = result.orders.data;
 }
 
-await getList();
+onMounted(async () => {
+  await getList();
+});
+// await getList();
 </script>
 <template>
   <section>
