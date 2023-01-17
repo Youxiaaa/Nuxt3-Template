@@ -3,6 +3,7 @@ export interface ApiResType {
   readonly message?: string;
   readonly result?: any;
   readonly success?: boolean;
+  readonly error?: boolean;
 }
 
 export interface AbortApiType {

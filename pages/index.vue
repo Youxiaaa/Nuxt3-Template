@@ -2,14 +2,14 @@
 import { QueryFormType } from '~~/types';
 const { FETCH_ROOM } = useApi();
 
-const roomList = ref([]) as any;
+const roomList = useState<any[]>('roomList', () => []);
 const query = ref<QueryFormType>({
   pageNo: 1,
   pageSize: 15
 });
 async function getList (): Promise<void> {
-  const { result } = await FETCH_ROOM.getRoomList(query.value);
-
+  const { result, error } = await FETCH_ROOM.getRoomList(query.value);
+  if (error) { return; }
   roomList.value = result.orders.data;
 }
 

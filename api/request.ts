@@ -63,9 +63,7 @@ export default class http {
         LoadingStore().FN_REMOVE_LOADING(apiUUID)
 
         const { status, statusText } = response
-
         http.handleError(status, statusText)
-        return response._data
       }
     })
   }
@@ -111,21 +109,25 @@ export default class http {
 
   public async get (url: string, params?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
     const { data } = await http.fetch(url, { method: 'get', params }, needLoading)
+    if (!data._value) { return { error: true } }
     return data._value
   }
 
   public async post (url: string, body?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
     const { data } = await http.fetch(url, { method: 'post', body }, needLoading)
+    if (!data._value) { return { error: true } }
     return data._value
   }
 
   public async put (url: string, body?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
     const { data } = await http.fetch(url, { method: 'put', body }, needLoading)
+    if (!data._value) { return { error: true } }
     return data._value
   }
 
   public async delete (url: string, params?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
     const { data } = await http.fetch(url, { method: 'delete', params }, needLoading)
+    if (!data._value) { return { error: true } }
     return data._value
   }
 }
