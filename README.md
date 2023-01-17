@@ -35,7 +35,7 @@ Npm => 9.2.0
 <script lang="ts" setup>
   const { FETCH_ROOM } = useApi();
 
-  cosnt roomList = ref([]);
+  cosnt roomList = useState([]);
   async function getRoomList() {
     const query = {
       pageNo: 1,

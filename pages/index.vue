@@ -8,7 +8,7 @@ const query = ref<QueryFormType>({
   pageSize: 15
 });
 async function getList (): Promise<void> {
-  const { result, error } = await FETCH_ROOM.getRoomList(query.value);
+  const { result, error } = await FETCH_ROOM.getRoomList(query.value, false);
   if (error) { return; }
   roomList.value = result.orders.data;
 }
@@ -22,7 +22,7 @@ await getList();
 </script>
 <template>
   <section>
-    <ul class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10px xl:gap-20px">
+    <ul v-if="roomList.length > 0" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10px xl:gap-20px">
       <li
         v-for="item in roomList"
         :key="item.id"
@@ -34,6 +34,9 @@ await getList();
         </h2>
       </li>
     </ul>
+    <p v-else class="text-center fw-800 text-24px">
+      暫無資料
+    </p>
     <div class="flex items-center gap-20px mt-20px">
       <button class="border-4px border-black p-20px rounded-10px text-center" @click="getList">
         Abort API

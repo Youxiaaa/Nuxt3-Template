@@ -72,18 +72,18 @@ export default class http {
   private static handleError (status: number, message: string) {
     const { $swal } = useNuxtApp()
     switch (status) {
-      case 404:
+      case 401:
         $swal.fire({
           icon: 'error',
-          html: `${message}`,
+          html: `${status} ${message}`,
           timer: 1500,
           showConfirmButton: false
         })
         break
-      case 401:
+      case 404:
         $swal.fire({
           icon: 'error',
-          html: `${message}`,
+          html: `${status} ${message}`,
           timer: 1500,
           showConfirmButton: false
         })
@@ -91,7 +91,7 @@ export default class http {
       case 500:
         $swal.fire({
           icon: 'error',
-          html: `${message}`,
+          html: `${status} ${message}`,
           timer: 1500,
           showConfirmButton: false
         })
@@ -99,7 +99,7 @@ export default class http {
       default:
         $swal.fire({
           icon: 'error',
-          html: `${message} || 伺服器錯誤，請稍後再試。`,
+          html: `${status} ${message}`,
           timer: 1500,
           showConfirmButton: false
         })
