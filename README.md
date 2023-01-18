@@ -1,7 +1,7 @@
 # Nuxt3 開發模板
 
 ## Setup
-```json
+```typescript
 // 安裝依賴
 npm i
 
@@ -28,6 +28,7 @@ Npm => 9.2.0
 - UnoCSS
 - FontAwesome
 - Sweetalert2
+- VueUse
 ```
 
 ## API 使用方式

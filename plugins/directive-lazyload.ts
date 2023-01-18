@@ -6,30 +6,28 @@ export default defineNuxtPlugin((nuxtApp) => {
       watcher.observe(el)
 
       async function onEnterView (img: any, observer: any) {
-        for (let i = 0; i < img.length; i += 1) {
-          if (img[i].isIntersecting) {
-            const target = img[i].target
-            const targetParent = target.parentNode
-            const loadingDiv = document.createElement('div')
+        if (img[0].isIntersecting) {
+          const target = img[0].target
+          const targetParent = target.parentNode
+          const loadingDiv = document.createElement('div')
 
-            target.classList.add('hidden')
-            loadingDiv.classList.add('loading__img')
-            targetParent.appendChild(loadingDiv)
-            targetParent.insertBefore(loadingDiv, target)
+          target.classList.add('hidden')
+          loadingDiv.classList.add('loading__img')
+          targetParent.appendChild(loadingDiv)
+          targetParent.insertBefore(loadingDiv, target)
 
-            const exist = await imageIsExist(bind.value)
+          const exist = await imageIsExist(bind.value)
 
-            if (exist) {
-              target.setAttribute('src', bind.value)
-              target.classList.remove('hidden')
-              loadingDiv.classList.add('hidden')
-            } else {
-              target.setAttribute('src', '/images/error/error-img.gif')
-              target.classList.remove('hidden')
-              loadingDiv.classList.add('hidden')
-            }
-            observer.unobserve(target)
+          if (exist) {
+            target.setAttribute('src', bind.value)
+            target.classList.remove('hidden')
+            loadingDiv.classList.add('hidden')
+          } else {
+            target.setAttribute('src', '/images/error/error-img.gif')
+            target.classList.remove('hidden')
+            loadingDiv.classList.add('hidden')
           }
+          observer.unobserve(target)
         }
       }
 
