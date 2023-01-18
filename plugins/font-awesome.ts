@@ -2,7 +2,10 @@ import { library, config } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // Solid 系列
-import { faHouse } from '@fortawesome/pro-solid-svg-icons'
+import {
+  faHouse,
+  faAngleUp
+} from '@fortawesome/pro-solid-svg-icons'
 // Regular 系列
 import {
   faHouse as farHouse,
@@ -16,7 +19,7 @@ import {
 config.autoAddCss = false
 
 // 引入 Solid 系列
-library.add(faHouse)
+library.add(faHouse, faAngleUp)
 
 // 引入 Regular 系列
 library.add(farHouse, farArrowRightFromBracket)

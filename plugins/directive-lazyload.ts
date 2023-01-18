@@ -16,18 +16,21 @@ export default defineNuxtPlugin((nuxtApp) => {
           targetParent.appendChild(loadingDiv)
           targetParent.insertBefore(loadingDiv, target)
 
+          // 取消監聽
+          observer.unobserve(target)
+
+          // 判斷圖片是否正常載入
+          // true => 正常載入圖片
+          // false => 用錯誤圖片替代
           const exist = await imageIsExist(bind.value)
 
           if (exist) {
             target.setAttribute('src', bind.value)
-            target.classList.remove('hidden')
-            loadingDiv.classList.add('hidden')
           } else {
             target.setAttribute('src', '/images/error/error-img.gif')
-            target.classList.remove('hidden')
-            loadingDiv.classList.add('hidden')
           }
-          observer.unobserve(target)
+          target.classList.remove('hidden')
+          loadingDiv.classList.add('hidden')
         }
       }
 

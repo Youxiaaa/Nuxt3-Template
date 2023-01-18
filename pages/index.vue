@@ -2,6 +2,7 @@
 import { useFps } from '@vueuse/core';
 import { QueryFormType } from '~~/types';
 const { FETCH_ROOM } = useApi();
+const { useFadeUp } = useGsap();
 
 const roomList = useState<any[]>('roomList', () => []);
 const query = ref<QueryFormType>({
@@ -9,7 +10,7 @@ const query = ref<QueryFormType>({
   pageSize: 15
 });
 async function getList (): Promise<void> {
-  const { result, error } = await FETCH_ROOM.getRoomList(query.value, false);
+  const { result, error } = await FETCH_ROOM.getRoomList(query.value);
   if (error) { return; }
   roomList.value = result.orders.data;
 }
@@ -21,6 +22,11 @@ const fps = useFps();
 //   });
 // });
 await getList();
+onMounted(() => {
+  nextTick(() => {
+    useFadeUp();
+  });
+});
 </script>
 <template>
   <section>
@@ -31,7 +37,7 @@ await getList();
       <li
         v-for="item in roomList"
         :key="item.id"
-        class="col-span-1 min-h-150px w-full rounded-10px border-4px border-black flex flex-col gap-10px items-center justify-center p-20px shadow-[6px_6px_0px_black]"
+        class="fadeUp col-span-1 min-h-150px w-full rounded-10px border-4px border-black flex flex-col gap-10px items-center justify-center p-20px shadow-[6px_6px_0px_black]"
       >
         <img v-lazy="item.pictureUrl" :alt="item.title">
         <h2 class="fw-800 text-20px">

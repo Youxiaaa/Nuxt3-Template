@@ -18,7 +18,7 @@ npm run build:dev
 
 ## 環境版本
 ```javascript
-Node => 16.19.0
+Node => 18.12.1
 Npm => 9.2.0
 ```
 
@@ -29,6 +29,7 @@ Npm => 9.2.0
 - FontAwesome
 - Sweetalert2
 - VueUse
+- Gsap
 ```
 
 ## API 使用方式
