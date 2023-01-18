@@ -24,7 +24,8 @@ export default defineNuxtConfig({
   ],
   modules: [
     '@pinia/nuxt',
-    '@unocss/nuxt'
+    '@unocss/nuxt',
+    '@vueuse/nuxt'
   ],
   build: {
     transpile: [

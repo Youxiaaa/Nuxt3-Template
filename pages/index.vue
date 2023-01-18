@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useFps } from '@vueuse/core';
 import { QueryFormType } from '~~/types';
 const { FETCH_ROOM } = useApi();
 
@@ -13,6 +14,7 @@ async function getList (): Promise<void> {
   roomList.value = result.orders.data;
 }
 
+const fps = useFps();
 // onMounted(() => {
 //   nextTick(() => {
 //     getList();
@@ -22,18 +24,9 @@ await getList();
 </script>
 <template>
   <section>
-    <!-- <RecycleScroller
-      class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10px xl:gap-20px"
-      :items="roomList"
-      :item-size="50"
-    >
-      <template v-slot="{ item }">
-        <div class="col-span-1 min-h-150px w-full rounded-10px border-4px border-black flex flex-col gap-10px items-center justify-center p-20px shadow-[6px_6px_0px_black]">
-          <img v-lazy="item.pictureUrl" :alt="item.title">
-          {{ item.title }}
-        </div>
-      </template>
-    </RecycleScroller> -->
+    <p class="fixed top-20px left-20px bg-black text-white fw-800">
+      {{ fps }}
+    </p>
     <ul v-if="roomList.length > 0" class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10px xl:gap-20px">
       <li
         v-for="item in roomList"
