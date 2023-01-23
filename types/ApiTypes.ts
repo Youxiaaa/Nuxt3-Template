@@ -4,6 +4,7 @@ export interface ApiResType {
   readonly result?: any;
   readonly success?: boolean;
   readonly error?: boolean;
+  readonly [propsName: string]: any;
 }
 
 export interface AbortApiType {

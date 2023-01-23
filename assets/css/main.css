@@ -45,3 +45,11 @@
     left: 110%;
   }
 }
+
+.list--visible {
+  content-visibility: visible;
+}
+
+.list--hidden {
+  content-visibility: hidden;
+}

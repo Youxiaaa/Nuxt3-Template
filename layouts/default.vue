@@ -3,7 +3,7 @@
     <CommonBackTop />
     <CommonLoading />
     <LayoutHeader />
-    <section class="mt-64px p-20px">
+    <section class="mt-76px p-20px">
       <slot />
     </section>
   </main>

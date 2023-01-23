@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      title: process.env.NUXT_APP_TITLE || 'Nuxt3-template',
+      title: process.env.NUXT_APP_TITLE || 'https://api.ryanyou.com',
       meta: [],
       link: [],
       script: []
@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_BASE_API || 'http://110.42.184.111'
+      apiBase: process.env.NUXT_BASE_API || 'https://api.ryanyou.com'
     }
   },
   typescript: {

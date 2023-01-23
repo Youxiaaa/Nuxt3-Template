@@ -1,5 +1,5 @@
-import FETCH_ROOM from './room'
+import FETCH_TODOS from './todos'
 
 export default {
-  FETCH_ROOM
+  FETCH_TODOS
 }

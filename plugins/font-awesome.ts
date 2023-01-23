@@ -9,7 +9,11 @@ import {
 // Regular 系列
 import {
   faHouse as farHouse,
-  faArrowRightFromBracket as farArrowRightFromBracket
+  faArrowRightFromBracket as farArrowRightFromBracket,
+  faPlus as farPlus,
+  faTrash as farTrash,
+  faCheck as farCheck,
+  faXmark as farXmark
 } from '@fortawesome/pro-regular-svg-icons'
 // Brands 系列
 import {
@@ -22,7 +26,7 @@ config.autoAddCss = false
 library.add(faHouse, faAngleUp)
 
 // 引入 Regular 系列
-library.add(farHouse, farArrowRightFromBracket)
+library.add(farHouse, farArrowRightFromBracket, farPlus, farTrash, farCheck, farXmark)
 
 // 引入 Brands 系列
 library.add(faApple)
