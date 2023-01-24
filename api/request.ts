@@ -62,8 +62,8 @@ export default class http {
         AbortApi.clearRequestPending(apiUUID)
         LoadingStore().FN_REMOVE_LOADING(apiUUID)
 
-        const { status, statusText } = response
-        http.handleError(status, statusText)
+        const { status, _data } = response
+        http.handleError(status, _data.message)
       }
     })
   }

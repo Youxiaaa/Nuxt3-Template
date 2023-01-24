@@ -124,11 +124,11 @@ async function updateTodo (todoItem: any) {
           <li v-for="(todo, idx) in todosList" :key="todo.id" class="border-4px border-black rounded-10px py-10px px-20px relative overflow-hidden">
             <div class="flex items-center gap-x-10px">
               <button class="w-20px h-20px rounded-full flex items-center justify-center relative border-2px border-black overflow-hidden" @click="updateStatus(todo)">
-                <div class="absolute w-full h-full flex items-center justify-center text-sm bg-yellow-300 duration-300" :class="[todo.isCompleted ? 'scale-100' : 'scale-0']">
+                <div class="absolute w-full h-full flex items-center justify-center text-sm bg-yellow-300 duration-300 rounded-full" :class="[todo.isCompleted ? 'scale-100' : 'scale-0']">
                   <fa icon="far fa-check" />
                 </div>
               </button>
-              <span>{{ idx + 1 }}.</span>
+              <span v-if="editingId !== todo._id">{{ idx + 1 }}.</span>
               <p v-if="editingId !== todo._id" class="line-clamp-1" :class="[todo.isCompleted ? 'line-through' : '']" @dblclick="editingId = todo._id, editCache = todo.title">
                 {{ todo.title }}
               </p>
@@ -136,7 +136,7 @@ async function updateTodo (todoItem: any) {
                 v-else
                 v-model="editCache"
                 type="text"
-                class="focus:outline-4px focus:outline-black"
+                class="focus:outline-4px focus:outline-black w-[calc(100%-100px)]"
                 @keyup.enter="updateTodo(todo)"
                 @keyup.esc="editingId = '', editCache = ''"
               >
