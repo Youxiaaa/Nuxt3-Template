@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      title: process.env.NUXT_APP_TITLE || 'https://api.ryanyou.com',
+      title: process.env.NUXT_APP_TITLE || 'Nuxt3-Template',
       meta: [],
       link: [],
       script: []

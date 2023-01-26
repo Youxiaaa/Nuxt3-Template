@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt --dotenv .env.dev build",
-    "build:prod": "nuxt --dovenv .env.prod build",
+    "build:prod": "nuxt --dotenv .env.prod build",
     "dev": "nuxt dev --dotenv .env.dev --open",
     "dev:prod": "nuxt dev --dotenv .env.prod --open",
     "generate": "nuxt generate",
