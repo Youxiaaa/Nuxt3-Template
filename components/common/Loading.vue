@@ -19,7 +19,7 @@ watch(() => LoadingStore().LOADING_ARRAY_LENGTH_GETTER, (oldVal, newVal) => {
 
 <template>
   <transition name="fade">
-    <div v-if="isOpen" class="fixed top-0 left-0 w-full h-full bg-black/25 flex-center z-99">
+    <div v-if="isOpen" class="fixed top-0 left-0 w-full h-full bg-black/25 flex-center z-999">
       <h2 class="tracking-10px text-white fw-800 text-24px">
         LOADING ...
       </h2>
