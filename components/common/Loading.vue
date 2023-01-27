@@ -5,11 +5,17 @@ const isOpen = ref(false)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 watch(() => LoadingStore().LOADING_ARRAY_LENGTH_GETTER, (oldVal, newVal) => {
-  if (newVal) { isOpen.value = true }
+  if (newVal) {
+    setTimeout(() => {
+      if (LoadingStore().LOADING_ARRAY_LENGTH_GETTER) {
+        isOpen.value = true
+      }
+    }, 500)
+  }
   if (!newVal) {
     setTimeout(() => {
       if (!LoadingStore().LOADING_ARRAY_LENGTH_GETTER) { isOpen.value = false }
-    }, 500)
+    }, 600)
     setTimeout(() => {
       if (!LoadingStore().LOADING_ARRAY_LENGTH_GETTER) { isOpen.value = false }
     }, 3000)
