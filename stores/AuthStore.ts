@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const AuthStore = defineStore('auth-store', () => {
-  const TOKEN_REF = ref(useCookie('access_token'))
+  const TOKEN_REF = ref(useCookie('authorization'))
 
   const TOKEN_GETTER = computed(() => TOKEN_REF.value || '')
 
@@ -21,13 +21,21 @@ export const AuthStore = defineStore('auth-store', () => {
       timer: 1500
     }).then(() => {
       const router = useRouter()
-      router.push('/')
+      router.push('/login')
     })
+  }
+
+  function FN_REMOVE_TOKEN () {
+    const authorization = useCookie('authorization')
+    authorization.value = null
+    const router = useRouter()
+    router.push('/login')
   }
 
   return {
     TOKEN_GETTER,
     FN_SET_TOKEN,
-    FN_LOGOUT
+    FN_LOGOUT,
+    FN_REMOVE_TOKEN
   }
 })

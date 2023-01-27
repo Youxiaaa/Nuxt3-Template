@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+definePageMeta({
+  middleware: ['auth']
+});
+
 const { FETCH_TODOS } = useApi();
 const { $swal } = useNuxtApp();
 const { useFadeUp } = useGsap();
@@ -9,9 +13,10 @@ async function getList (): Promise<void> {
   if (error) { return; }
   todosList.value = todos;
 }
-await getList();
+// await getList();
 onMounted(() => {
-  nextTick(() => {
+  nextTick(async () => {
+    await getList();
     useFadeUp();
   });
 });

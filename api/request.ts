@@ -27,7 +27,7 @@ export default class http {
 
         Object.assign(options, methodAndOptions)
 
-        const token = useCookie('access_token')
+        const token = useCookie('authorization')
         const headersInit: HeadersInit = {
           authorization: `Bearer ${token.value || ''}`
         }
@@ -70,6 +70,7 @@ export default class http {
 
   // 錯誤處理
   private static handleError (status: number, message: string) {
+    const { AuthStore } = useStore()
     const { $swal } = useNuxtApp()
     switch (status) {
       case 401:
@@ -79,6 +80,7 @@ export default class http {
           timer: 1500,
           showConfirmButton: false
         })
+        AuthStore().FN_REMOVE_TOKEN()
         break
       case 404:
         $swal.fire({
