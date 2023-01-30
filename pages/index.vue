@@ -104,11 +104,13 @@ async function updateTodo (todoItem: any) {
     title: editCache.value,
     isCompleted: todoItem.isCompleted
   };
-  const { todos, error } = await FETCH_TODOS.updateTodo(todoItem._id, todo);
+  const { todos, error, message } = await FETCH_TODOS.updateTodo(todoItem._id, todo);
 
   editingId.value = '';
   editCache.value = '';
-
+  if (message) {
+    console.log(message);
+  }
   if (error) { return; }
   todosList.value = todos;
 }

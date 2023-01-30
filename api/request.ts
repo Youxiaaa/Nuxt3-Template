@@ -2,7 +2,7 @@
  * api封裝
  * @param { String } url api網址
  * @param { Object } methodAndOptions 請求方法以及參數 body || params
- * @param { Object } options useFtech第二個參數
+ * @param { Object } needLoading 是否需要開啟Loading
  */
 
 import { hash } from 'ohash'
@@ -19,61 +19,161 @@ export default class http {
     const reqUrl = `${apiBase}${url}`
 
     const apiUUID: string = hash(JSON.stringify(methodAndOptions) + url)
+    const token = useCookie('authorization')
+    const headersInit: HeadersInit = {
+      authorization: `Bearer ${token.value || ''}`
+    }
 
-    return await useFetch(reqUrl, {
-      // 請求攔截
-      onRequest ({ options }) {
-        AbortApi.removeRequestPending(apiUUID)
+    return await new Promise((resolve, reject) => {
+      useFetch(reqUrl, {
+        // 請求攔截
+        onRequest ({ options }) {
+          Object.assign(options, { ...methodAndOptions, key: apiUUID, initialCache: false })
+          AbortApi.removeRequestPending(apiUUID)
 
-        Object.assign(options, methodAndOptions)
+          options.headers = headersInit
 
-        const token = useCookie('authorization')
-        const headersInit: HeadersInit = {
-          authorization: `Bearer ${token.value || ''}`
+          if (needLoading) { LoadingStore().FN_ADD_LOADING(apiUUID) }
+
+          const abortInstance = new AbortController()
+          options.signal = abortInstance.signal
+
+          const requestItem: AbortApiType = {
+            uuid: apiUUID,
+            cancel: abortInstance
+          }
+          AbortApi.addRequestPending(requestItem)
+        },
+        // 請求錯誤攔截
+        onRequestError ({ error }) {
+          AbortApi.clearRequestPending(apiUUID)
+          LoadingStore().FN_REMOVE_LOADING(apiUUID)
+
+          console.error(error)
+        },
+        // 回應攔截
+        async onResponse ({ request, response, options }) {
+          AbortApi.clearRequestPending(apiUUID)
+          LoadingStore().FN_REMOVE_LOADING(apiUUID)
+          const { status, _data } = response
+          if (status !== 200 && status !== 201) {
+            if (_data.message.includes('jwt expired')) {
+              const isValid = await http.handleRefreshToken()
+
+              if (isValid) {
+                const data = await http.handleRegetApi(request, options, needLoading)
+                resolve(data)
+              } else {
+                reject(_data.message)
+              }
+            } else {
+              http.handleErrorMessage(status, _data.message)
+              reject(_data.message)
+            }
+          } else {
+            resolve(_data)
+          }
         }
-        options.headers = headersInit
+      }) as any
+    })
+  }
 
-        if (needLoading) { LoadingStore().FN_ADD_LOADING(apiUUID) }
+  // 重新取得API
+  private static async handleRegetApi (request: any, options: any, needLoading = true): Promise<any> {
+    const { LoadingStore } = useStore()
+    const apiUUID: string = hash(JSON.stringify(request) + JSON.stringify(options))
 
-        const abortInstance = new AbortController()
-        options.signal = abortInstance.signal
+    //! 將這些移除，否則會無限迴圈
+    options.key = apiUUID
+    options.onRequest = null
+    options.onRequestError = null
+    options.onResponse = null
+    options.onResponseError = null
 
-        const requestItem: AbortApiType = {
-          uuid: apiUUID,
-          cancel: abortInstance
-        }
-        AbortApi.addRequestPending(requestItem)
-      },
-      // 請求錯誤攔截
-      onRequestError ({ error }) {
-        AbortApi.clearRequestPending(apiUUID)
-        LoadingStore().FN_REMOVE_LOADING(apiUUID)
+    if (needLoading) { LoadingStore().FN_ADD_LOADING(apiUUID) }
 
-        console.error(error)
-      },
-      // 回應攔截
-      onResponse ({ response }) {
-        AbortApi.clearRequestPending(apiUUID)
-        LoadingStore().FN_REMOVE_LOADING(apiUUID)
-        return response._data
-      },
-      // 回應錯誤攔截
-      onResponseError ({ response }) {
-        AbortApi.clearRequestPending(apiUUID)
-        LoadingStore().FN_REMOVE_LOADING(apiUUID)
+    const abortInstance = new AbortController()
+    options.signal = abortInstance.signal
 
-        const { status, _data } = response
-        http.handleError(status, _data.message)
+    const requestItem: AbortApiType = {
+      uuid: apiUUID,
+      cancel: abortInstance
+    }
+    AbortApi.addRequestPending(requestItem)
+
+    const token = useCookie('authorization')
+    const headersInit: HeadersInit = {
+      authorization: `Bearer ${token.value || ''}`
+    }
+    // eslint-disable-next-line no-async-promise-executor
+    return await new Promise(async (resolve, reject) => {
+      const { data } = await useFetch(request, {
+        ...options,
+        headers: headersInit
+      }) as any
+
+      AbortApi.clearRequestPending(apiUUID)
+      LoadingStore().FN_REMOVE_LOADING(apiUUID)
+
+      if (data._value) {
+        resolve(data._value)
+      } else {
+        reject(data)
+      }
+    })
+  }
+
+  // RefreshToken
+  private static async handleRefreshToken (): Promise<boolean> {
+    const { AuthStore } = useStore()
+    const { $swal } = useNuxtApp()
+    // 取得環境變數 BaseURL
+    const runtimeConfig = useRuntimeConfig()
+    const { apiBase } = runtimeConfig.public
+    const reqUrl = `${apiBase}`
+    const tokenInit = {
+      refreshToken: useCookie('refreshToken')
+    } as any
+    // eslint-disable-next-line no-async-promise-executor
+    return await new Promise(async (resolve) => {
+      const { data } = await useFetch(`${reqUrl}/user/refreshToken`, {
+        method: 'post',
+        body: tokenInit
+      }) as any
+      const res = data._value
+      if (!res?.access_token || !res?.refresh_token) {
+        $swal.fire({
+          icon: 'error',
+          html: '請重新登入',
+          timer: 1500,
+          showConfirmButton: false
+        })
+        AuthStore().FN_REMOVE_TOKEN()
+
+        const accessToken = useCookie('authorization')
+        const refreshToken = useCookie('refreshToken')
+        accessToken.value = null
+        refreshToken.value = null
+
+        const router = useRouter()
+        router.push('/login')
+        resolve(false)
+      } else {
+        const accessToken = useCookie('authorization')
+        const refreshToken = useCookie('refreshToken')
+        accessToken.value = res.access_token
+        refreshToken.value = res.refresh_token
+        resolve(true)
       }
     })
   }
 
   // 錯誤處理
-  private static handleError (status: number, message: string) {
+  private static handleErrorMessage (status: number, message: string) {
     const { AuthStore } = useStore()
     const { $swal } = useNuxtApp()
     switch (status) {
-      case 401:
+      case 401: {
         $swal.fire({
           icon: 'error',
           html: `${status} ${message}`,
@@ -82,6 +182,7 @@ export default class http {
         })
         AuthStore().FN_REMOVE_TOKEN()
         break
+      }
       case 404:
         $swal.fire({
           icon: 'error',
@@ -110,26 +211,18 @@ export default class http {
   }
 
   public async get (url: string, params?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
-    const { data } = await http.fetch(url, { method: 'get', params }, needLoading)
-    if (!data._value) { return { error: true } }
-    return data._value
+    return await http.fetch(url, { method: 'get', params }, needLoading)
   }
 
   public async post (url: string, body?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
-    const { data } = await http.fetch(url, { method: 'post', body }, needLoading)
-    if (!data._value) { return { error: true } }
-    return data._value
+    return await http.fetch(url, { method: 'post', body }, needLoading)
   }
 
   public async put (url: string, body?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
-    const { data } = await http.fetch(url, { method: 'put', body }, needLoading)
-    if (!data._value) { return { error: true } }
-    return data._value
+    return await http.fetch(url, { method: 'put', body }, needLoading)
   }
 
   public async delete (url: string, params?: QueryFormType, needLoading?: boolean): Promise<ApiResType> {
-    const { data } = await http.fetch(url, { method: 'delete', params }, needLoading)
-    if (!data._value) { return { error: true } }
-    return data._value
+    return await http.fetch(url, { method: 'delete', params }, needLoading)
   }
 }

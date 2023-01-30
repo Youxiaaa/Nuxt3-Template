@@ -14,6 +14,7 @@ module.exports = {
   },
   plugins: ['vue'],
   rules: {
+    camelcase: 'off',
     'new-parens': 'off',
     // 'space-before-function-paren': 0,
     'import/named': 'off',

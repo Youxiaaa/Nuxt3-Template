@@ -23,15 +23,18 @@ async function login () {
     return;
   }
   try {
-    const { token } = await FETCH_AUTH.login(user.value);
-    if (!token) { return; }
+    const { accessToken, refreshToken } = await FETCH_AUTH.login(user.value);
+    if (!accessToken) { return; }
 
     const authorization = useCookie('authorization');
+    const refresh_token = useCookie('refreshToken');
     const { AuthStore } = useStore();
     const router = useRouter();
 
-    authorization.value = `${token}`;
-    AuthStore().FN_SET_TOKEN(token);
+    authorization.value = accessToken;
+    AuthStore().FN_SET_TOKEN(accessToken);
+    refresh_token.value = refreshToken;
+    AuthStore().FN_SET_REFRESH_TOKEN(refreshToken);
     $swal.fire({
       icon: 'success',
       iconColor: '#000',
