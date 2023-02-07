@@ -55,6 +55,7 @@ export default class http {
         async onResponse ({ request, response, options }) {
           AbortApi.clearRequestPending(apiUUID)
           LoadingStore().FN_REMOVE_LOADING(apiUUID)
+
           const { status, _data } = response
           if (status !== 200 && status !== 201) {
             if (_data.message.includes('jwt expired')) {
@@ -131,17 +132,28 @@ export default class http {
     const runtimeConfig = useRuntimeConfig()
     const { apiBase } = runtimeConfig.public
     const reqUrl = `${apiBase}`
+
+    // 設定要 POST 的 refresh_token
     const tokenInit = {
       refreshToken: useCookie('refreshToken')
-    } as any
+    } as object
+
+    // 設定 access_token
+    const token = useCookie('authorization')
+    const headersInit: HeadersInit = {
+      authorization: `Bearer ${token.value || ''}`
+    }
     // eslint-disable-next-line no-async-promise-executor
     return await new Promise(async (resolve) => {
       const { data } = await useFetch(`${reqUrl}/user/refreshToken`, {
         method: 'post',
-        body: tokenInit
+        body: tokenInit,
+        headers: headersInit
       }) as any
+
       const res = data._value
-      if (!res?.access_token || !res?.refresh_token) {
+
+      if (!res?.accessToken || !res?.refreshToken) {
         $swal.fire({
           icon: 'error',
           html: '請重新登入',
@@ -161,8 +173,8 @@ export default class http {
       } else {
         const accessToken = useCookie('authorization')
         const refreshToken = useCookie('refreshToken')
-        accessToken.value = res.access_token
-        refreshToken.value = res.refresh_token
+        accessToken.value = res.accessToken
+        refreshToken.value = res.refreshToken
         resolve(true)
       }
     })
