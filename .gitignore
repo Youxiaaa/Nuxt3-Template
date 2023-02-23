@@ -4,5 +4,9 @@ node_modules
 .nitro
 .cache
 .output
-.env
+.env.dev
+.env.prod
 dist
+.DS_Store
+.npmrc
+package-lock.json

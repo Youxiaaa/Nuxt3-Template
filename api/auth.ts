@@ -1,7 +1,6 @@
 import http from './request'
 
 enum apiPath {
-  register = '/user/register',
   login = '/user/login',
   refresh = '/user/refreshToken'
 }
