@@ -29,10 +29,12 @@
     "@unocss/preset-attributify": "^0.48.3",
     "@unocss/preset-uno": "^0.48.3",
     "@unocss/reset": "^0.48.3",
+    "@vee-validate/rules": "^4.7.4",
     "@vueuse/core": "^9.11.0",
     "@vueuse/nuxt": "^9.11.0",
     "gsap": "^3.11.4",
     "pinia": "^2.0.29",
-    "sweetalert2": "^11.7.0"
+    "sweetalert2": "^11.7.0",
+    "vee-validate": "^4.7.4"
   }
 }

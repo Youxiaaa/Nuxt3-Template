@@ -12,16 +12,6 @@ const user = ref({
 });
 
 async function login () {
-  if (!user.value.username || !user.value.password) {
-    $swal.fire({
-      icon: 'warning',
-      iconColor: '#000',
-      html: '帳號或密碼未輸入',
-      showConfirmButton: false,
-      timer: 1500
-    });
-    return;
-  }
   try {
     const { accessToken, refreshToken } = await FETCH_AUTH.login(user.value);
     if (!accessToken) { return; }
@@ -56,15 +46,45 @@ async function login () {
       <h2 class="text-center text-24px fw-800">
         登入
       </h2>
-      <div class="flex flex-col gap-y-10px">
-        <label for="account">帳號:</label>
-        <input id="account" v-model="user.username" type="text" class="w-full border-4px border-black rounded-10px p-10px focus:outline-none" placeholder="請輸入帳號">
-        <label for="password">密碼:</label>
-        <input id="password" v-model="user.password" type="password" class="w-full border-4px border-black rounded-10px p-10px focus:outline-none" placeholder="請輸入密碼">
-        <button class="w-full border-4px border-black py-10px rounded-10px mt-20px bg-black text-white fw-800 hover:bg-white hover:text-black duration-300" @click="login">
+      <VForm v-slot="{ errors }" @submit="login()">
+        <div class="flex flex-col gap-y-14px">
+          <div class="flex flex-col gap-y-4px">
+            <label for="account">帳號:</label>
+            <VField
+              id="account"
+              v-model="user.username"
+              name="帳號"
+              rules="required"
+              type="text"
+              class="w-full border-2px px-14px py-5px rounded-10px focus:outline-none"
+              :class="[errors.帳號 ? 'border-red-500' : 'border-black']"
+              placeholder="請輸入帳號"
+            />
+            <transition name="fade">
+              <VErrorMessage name="帳號" class="text-14px text-red-500" />
+            </transition>
+          </div>
+          <div class="flex flex-col gap-y-4px">
+            <label for="password">密碼:</label>
+            <VField
+              id="password"
+              v-model="user.password"
+              name="密碼"
+              rules="required|minMax:4,12"
+              type="password"
+              class="w-full border-2px px-14px py-5px rounded-10px focus:outline-none"
+              :class="[errors.密碼 ? 'border-red-500' : 'border-black']"
+              placeholder="請輸入密碼"
+            />
+            <transition name="fade">
+              <VErrorMessage name="密碼" class="text-14px text-red-500" />
+            </transition>
+          </div>
+        </div>
+        <button class="w-full border-4px border-black py-10px rounded-10px mt-20px bg-black text-white fw-800 hover:bg-white hover:text-black duration-300">
           登入
         </button>
-      </div>
+      </VForm>
     </div>
   </section>
 </template>
