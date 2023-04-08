@@ -42,6 +42,7 @@ module.exports = {
   overrides: [
     {
       files: [
+        '**/plugins/**/*.{js,ts,vue}',
         '**/pages/**/*.{js,ts,vue}',
         '**/layouts/**/*.{js,ts,vue}',
         '**/app.{js,ts,vue}',

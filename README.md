@@ -18,8 +18,8 @@ npm run build:dev
 
 ## 環境版本
 ```javascript
-Node => 18.12.1
-Npm => 9.2.0
+Node => 18.15.0
+Npm => 9.6.2
 ```
 
 ## 相關依賴

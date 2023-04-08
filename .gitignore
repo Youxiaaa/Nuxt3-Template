@@ -9,4 +9,3 @@ node_modules
 dist
 .DS_Store
 .npmrc
-package-lock.json
