@@ -9,9 +9,11 @@ const { useFadeUp } = useGsap();
 
 const todosList = useState<any[]>('todosList', () => []);
 async function getList (): Promise<void> {
-  const { todos, error } = await FETCH_TODOS.getTodos();
+  const { result, error } = await FETCH_TODOS.getTodos();
+
   if (error) { return; }
-  todosList.value = todos;
+
+  todosList.value = result;
 }
 // await getList();
 onMounted(() => {
@@ -39,9 +41,12 @@ async function addTodo (): Promise<void> {
   const todo = {
     title: todoTrim
   };
-  const { todos, error } = await FETCH_TODOS.addTodo(todo);
+  const { result, error } = await FETCH_TODOS.addTodo(todo);
+
   if (error) { return; }
-  todosList.value = todos;
+
+  todosList.value = result;
+
   newTodo.value = '';
 }
 
@@ -64,11 +69,11 @@ function removeTodo (item: any): void {
         timer: 1500,
         showConfirmButton: false
       });
-      const { todos, error } = await FETCH_TODOS.removeTodo(item._id);
+      const { result, error } = await FETCH_TODOS.removeTodo(item._id);
 
       if (error) { return; }
 
-      todosList.value = todos;
+      todosList.value = result;
     }
   });
 }
@@ -76,11 +81,12 @@ function removeTodo (item: any): void {
 // 更新
 async function updateStatus (item: any) {
   item.isCompleted = !item.isCompleted;
-  const { todos, error } = await FETCH_TODOS.updateTodo(item._id, item);
+
+  const { result, error } = await FETCH_TODOS.updateTodo(item);
 
   if (error) { return; }
 
-  todosList.value = todos;
+  todosList.value = result;
 }
 
 const editingId = ref<string>('');
@@ -100,19 +106,20 @@ async function updateTodo (todoItem: any) {
     });
     return;
   }
+
   const todo = {
+    _id: todoItem._id,
     title: editCache.value,
     isCompleted: todoItem.isCompleted
   };
-  const { todos, error, message } = await FETCH_TODOS.updateTodo(todoItem._id, todo);
+  const { result, error } = await FETCH_TODOS.updateTodo(todo);
 
   editingId.value = '';
   editCache.value = '';
-  if (message) {
-    console.log(message);
-  }
+
   if (error) { return; }
-  todosList.value = todos;
+
+  todosList.value = result;
 }
 </script>
 <template>

@@ -18,7 +18,7 @@ export default new class extends http {
     return this.delete(`/todos/delete/${id}`, params, needLoading)
   }
 
-  updateTodo (id: string, body: any, needLoading = true) {
-    return this.put(`/todos/update/${id}`, body, needLoading)
+  updateTodo (body: any, needLoading = true) {
+    return this.put('/todos/update', body, needLoading)
   }
 }

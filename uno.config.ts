@@ -1,12 +1,12 @@
-import { defineConfig } from 'unocss';
-import presetUno from '@unocss/preset-uno';
-import presetAttributify from '@unocss/preset-attributify';
+import { defineConfig } from 'unocss'
+import presetUno from '@unocss/preset-uno'
+import presetAttributify from '@unocss/preset-attributify'
 
 export default defineConfig({
   exclude: ['node_modules', 'dist', '.git', 'public', 'build'],
   presets: [
     presetAttributify(),
-    presetUno(),
+    presetUno()
   ],
   // Custom Rules Static Rules
   rules: [],
@@ -14,7 +14,7 @@ export default defineConfig({
   variants: [],
   /* shortcuts to multiple utilities */
   shortcuts: {
-    'flex-center': 'flex items-center justify-center',
+    'flex-center': 'flex items-center justify-center'
   },
   theme: {
     // 因為與 presets 的規則衝突，所以 'custom_dark' 不可取名為 'custom-dark'
@@ -26,21 +26,21 @@ export default defineConfig({
       primaryDarkYellow: '#FE990D',
       primaryLightYellow: 'rgba(254, 153, 13, 0.2)',
       secondaryRed: '#F63C3C',
-      secondaryGreen: '#51C927',
+      secondaryGreen: '#51C927'
     },
     fontSize: {
       h1: '30px',
       h2: '24px',
       h3: '20px',
       h4: '18px',
-      h5: '16px',
+      h5: '16px'
     },
     breakpoints: {
       sm: '375px',
       md: '768px',
       lg: '1024px',
       xl: '1280px',
-      '2xl': '1500px',
-    },
-  },
-});
+      '2xl': '1500px'
+    }
+  }
+})
