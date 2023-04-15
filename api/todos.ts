@@ -5,7 +5,7 @@ enum apiPath {
   post = '/todos/add',
 }
 
-export default new class extends http {
+export const FETCH_TODOS = new class extends http {
   getTodos (params: any = {}, needLoading = true) {
     return this.get(apiPath.get, params, needLoading)
   }

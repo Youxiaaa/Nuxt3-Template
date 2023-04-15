@@ -19,7 +19,7 @@ npm run build:dev
 ## 環境版本
 ```javascript
 Node => 18.15.0
-Npm => 9.6.2
+Npm => 9.6.4
 ```
 
 ## 相關依賴
@@ -59,12 +59,13 @@ Npm => 9.6.2
 ```
 ## Store 使用方式
 ```typescript
-export default defineNuxtRouteMiddleware((to, from) => {
-  const { AuthStore } = useStore()
+import { AbortApi } from '~~/utils'
+import { LoadingStore } from '~/stores'
 
-  if (!AuthStore().TOKEN_GETTER) {
-    if (to.path !== '/login') { return navigateTo('/login') }
-  } else if (to.path === '/login') { return navigateTo('/') }
+export default defineNuxtRouteMiddleware(() => {
+  LoadingStore().FN_REMOVE_ALL_LOADING
+
+  AbortApi.cancelAllPending()
 })
 ```
 

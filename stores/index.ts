@@ -1,7 +1,2 @@
-import { LoadingStore } from './LoadingStore'
-import { AuthStore } from './AuthStore'
-
-export default {
-  LoadingStore,
-  AuthStore
-}
+export * from './LoadingStore'
+export * from './AuthStore'

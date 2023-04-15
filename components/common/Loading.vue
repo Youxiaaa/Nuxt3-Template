@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { LoadingStore } = useStore()
+import { LoadingStore } from '~/stores'
 
 const isOpen = ref(false)
 

@@ -1,11 +1,16 @@
 <script lang="ts" setup>
+import { FETCH_TODOS } from '~~/api';
+import { AuthStore } from '~~/stores';
+
 definePageMeta({
   middleware: ['auth']
 });
 
-const { FETCH_TODOS } = useApi();
 const { $swal } = useNuxtApp();
 const { useFadeUp } = useGsap();
+
+// 取得用戶資訊
+const userInfo = computed(() => AuthStore().USER_INFO_GETTER);
 
 const todosList = useState<any[]>('todosList', () => []);
 async function getList (): Promise<void> {
@@ -123,7 +128,10 @@ async function updateTodo (todoItem: any) {
 }
 </script>
 <template>
-  <section class="w-full md:max-w-40% mx-auto h-[calc(100vh-116px)]">
+  <section class="w-full md:max-w-40% mx-auto h-[calc(100vh-136px)]">
+    <h2 class="text-center mb-20px text-32px">
+      HI {{ userInfo.username }}!
+    </h2>
     <ul class="fadeUp border-4px border-black rounded-10px w-full max-h-full overflow-y-auto shadow-[4px_4px_0px_4px_black]">
       <div class="sticky top-0 left-0 bg-white w-full h-90px p-20px z-99">
         <div class="flex items-center w-full border-4px h-50px border-black rounded-10px overflow-hidden">

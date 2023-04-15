@@ -6,13 +6,12 @@
  */
 
 import { hash } from 'ohash'
+import { LoadingStore, AuthStore } from '~~/stores'
 import { AbortApi } from '~~/utils'
 import { ApiResType, AbortApiType, QueryFormType, ApiMethodType } from '~~/types'
 
 export default class http {
   private static async fetch (url: string, methodAndOptions: ApiMethodType, needLoading?: boolean): Promise<any> {
-    const { LoadingStore } = useStore()
-
     // 取得環境變數 BaseURL
     const runtimeConfig = useRuntimeConfig()
     const { apiBase } = runtimeConfig.public
@@ -81,7 +80,6 @@ export default class http {
 
   // 重新取得API
   private static async handleRegetApi (request: any, options: any, needLoading = true): Promise<any> {
-    const { LoadingStore } = useStore()
     const apiUUID: string = hash(JSON.stringify(request) + JSON.stringify(options))
 
     //! 將這些移除，否則會無限迴圈
@@ -126,7 +124,6 @@ export default class http {
 
   // RefreshToken
   private static async handleRefreshToken (): Promise<boolean> {
-    const { AuthStore } = useStore()
     const { $swal } = useNuxtApp()
     // 取得環境變數 BaseURL
     const runtimeConfig = useRuntimeConfig()
@@ -182,7 +179,6 @@ export default class http {
 
   // 錯誤處理
   private static handleErrorMessage (status: number, message: string) {
-    const { AuthStore } = useStore()
     const { $swal } = useNuxtApp()
     switch (status) {
       case 401: {
